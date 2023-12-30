@@ -5,8 +5,8 @@ export const generateToken = (
   tokenSecret: string,
   time?: number,
 ) => {
-  const token: string = tokenjwt.sign(payload, tokenSecret || '123', {
-    expiresIn: time || 60,
+  const token: string = tokenjwt.sign(payload, tokenSecret || '123456', {
+    expiresIn: time || 60 * 60,
   });
   return token;
 };
