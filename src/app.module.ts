@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CurrencyModule } from './currency/currency.module';
 
 @Module({
   imports: [
@@ -12,15 +9,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       type: 'mysql',
       host: 'localhost',
       port: 3306,
-      username: process.env.username,
-      password: process.env.password,
-      database: process.env.database,
+      username: 'root',
+      password: 'Giordan.1993',
+      database: 'currency',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     AuthModule,
+    CurrencyModule,
   ],
-  controllers: [AppController, AuthController],
-  providers: [AppService, AuthService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
