@@ -2,9 +2,10 @@ import { Body, Controller, Get, Headers, Post, Res } from '@nestjs/common';
 import { CreateUserDto, LoginUser } from './dto';
 import { FastifyReply } from 'fastify';
 import { AuthService } from './auth.service';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { authMiddleware } from 'src/middleware';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -28,17 +29,17 @@ export class AuthController {
     if (!token)
       return res.status(400).send({ message: 'Email o password is wrong' });
 
-    res.header('Authorization', `Bearer ${token}`);
+    res.header('token', `Bearer ${token}`);
     return res.status(200).send({ message: 'User correct', token });
   }
 
   @ApiBearerAuth()
   @Get('profile')
   async profile(
-    @Headers('authorization') authorization: string,
+    @Headers('token') token: string,
     @Res() res: FastifyReply,
   ) {
-    const payload = authMiddleware(res, authorization);
+    const payload = authMiddleware(res, token);
     const userFound = await this.authService.profile(payload);
     return res.status(200).send({ data: userFound });
   }

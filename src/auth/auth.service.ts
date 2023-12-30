@@ -52,7 +52,7 @@ export class AuthService {
     );
 
     if (isCorrectPassword)
-      return generateToken({ id: userFound.id }, process.env.TOKEN_SECRET, 60);
+      return generateToken({ id: userFound.id }, process.env.TOKEN_SECRET, 60 * 60);
   }
 
   async profile( payload ) {
